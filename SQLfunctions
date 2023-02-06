@@ -1,0 +1,182 @@
+#!/bin/bash
+# Functions to make the templates for the alias
+# Last Modified: 2023-02-01
+
+# procedure_sql
+# Creates procedures for sql
+procedure_sql(){
+	filename=$1
+	echo "Enter procedure name: "
+	read procedure_name
+	header_sql $filename $procedure_name
+	echo "create or replace procedure $procedure_name as" >> $filename
+	echo >> $filename
+	afterSetup $filename $procedure_name
+}
+
+# functions_sql
+# creates functions for sql
+functions_sql(){
+	filename=$1
+	echo "Enter function name: "
+	read funct_name
+	header_sql $1 $funct_name
+	echo "Do you want an IS(1) or AS(2): "
+	read is_answer
+	echo "What variable do you need to return?"
+	read varReturned
+	if [ $is_answer == 1 ]
+	then	
+		echo "create or replace function $funct_name ">> $filename 
+		echo "	RETURN $varReturned IS" >> $filename
+	elif [ $is_answer == 2 ]
+	then
+		echo "create or replace function $funct_name ">> $filename 
+		echo "	RETURN $varReturned AS" >> $filename
+	else
+		echo "Not an option"
+		exit 1
+	fi
+	afterSetup $filename $funct_name
+}
+
+afterSetup(){
+	filename=$1
+	name=$2
+	echo >> $filename
+	echo "begin" >> $filename
+	echo >> $filename
+
+	echo "Do you need exceptions(y/n)?"
+	read except_answer
+	exceptions_sql $filename $except_answer
+
+	echo "end;" >> $filename
+	echo "/" >> $filename
+	echo "show errors" >> $filename
+	echo >> $filename
+}
+
+testingCreation() {
+	filename=$1
+	name=$2
+	echo >> $filename
+	echo "prompt *******" >> $filename
+	if [ $# -ne 3 ]
+	then
+		echo "prompt TESTING $name: " >> $filename
+		echo "prompt *******" >> $filename
+		echo "exec $name" >> $filename
+	else
+		echo "prompt TESTING $name" >> $filename
+		echo "*******" >> $filename
+	fi 
+	
+}
+
+testTemp() {
+	filename=$1
+	echo >> $filename
+	echo "prompt TESTING " >> $filename
+	echo >> $filename
+}
+
+# trigger_sql
+# creates triggers for sql
+trigger_sql(){
+	echo "Enter name for your trigger:"
+	read triggerName
+	header_sql $1 $triggerName
+	echo "create or replace trigger $triggerName" >> $1
+	echo "Is this before(1) or after(2) updates?"
+	read whenTriggered
+
+	if [ $whenTriggered == 1 ]
+	then
+		echo "	before update" >> $1
+	elif [ $whenTriggered == 2 ]
+	then
+		echo "	after update" >> $1
+	else
+		echo "Not an option"
+		exit 1
+	fi
+
+	echo "Which table is this for?"
+	read tbl_nam
+	echo "	on $tbl_nam" >> $1
+	echo "	for each row" >> $1
+	afterSetup $1 $triggerName 0
+}
+
+# Signatures, purpose, and tests
+header_sql(){
+	filename=$1
+	echo >> $filename
+	echo "/*====" >> $filename 
+	echo "	$2 " >> $filename
+	echo "	Purpose: " >> $filename
+	echo "	Tests: " >> $filename
+	echo "====*/" >> $filename
+}
+
+# Asks for how much for each
+howMany_sql(){
+	counter=0
+	funct_to_do=$1
+	filename=$2	
+
+	if [ $funct_to_do == 1 ]
+	then
+		echo "How much procedures do you want?"
+		read amount
+		while [ $counter -lt $amount ]
+		do
+			procedure_sql $filename
+			prodArray+=($procedure_name)
+			((counter++))
+		done
+ 	elif [ $funct_to_do == 2 ]
+	then
+		echo "How much functions do you want?"
+		read amount
+		while [ $counter -lt $amount ]
+		do
+			functions_sql $filename
+			functArray+=($funct_name)
+			((counter++))
+
+		done
+	elif [ $funct_to_do == 3 ]
+	then
+		echo "How much trigger do you want?"
+		read amount
+		while [ $counter -lt $amount ]
+		do
+			trigger_sql $filename
+			trigArray+=($triggerName)
+
+			((counter++))
+
+		done
+	fi
+}
+
+exceptions_sql(){
+	filename=$1
+	exception_needed=$2
+	if [ $exception_needed == 'y' ]
+	then
+		echo "exception" >> $filename
+		echo "	when INSERT_EXCEPTION then" >> $filename
+		echo "	when OTHERS then" >> $filename
+		echo "		dbms_output.put_line('SQLCODE: ' || SQLCODE);" >> $filename
+		echo "		dbms_output.put_line('SQLERRM: ' || SQLERRM);" >> $filename
+	elif [ $exception_needed != 'n' ]
+	then
+		echo "Not a valid answer!"
+		echo "Please anwer either y/n"
+		read except_answer
+		exceptions_sql $filename $except_answer
+	fi
+}
