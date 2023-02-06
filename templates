@@ -1,0 +1,39 @@
+#!/bin/bash
+# Autoformat for 328
+# Nathan Peralta
+# Last Modified: 2023-Jan-27
+#		2023-Feb-01
+source SQLfunctions
+source HTMLfunctions
+source templateFunct
+
+if [ $# -eq 0 ]
+then
+	echo "Add file name: "
+	read filename
+else
+	filename=$1
+fi
+
+if [ -e $filename ]
+then
+	echo "Exists"
+
+	newModified=$(date +"%Y-%b-%d %R")
+	modifiedForm="Last modified: $newModified"
+	sed -i "s/Last modified: .*/$modifiedForm/g" $filename
+
+elif [ ! -f $filename ]
+then
+	echo "Are you making an PL/SQL script(1) or HTML script (2): "
+	read temp_choice
+	if [ $temp_choice = 1 ]
+	then	
+		PLtemplate $filename $2
+	elif [ $temp_choice = 2 ]
+	then
+		HTMLheader $filename
+	fi
+fi
+
+nano $filename
