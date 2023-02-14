@@ -25,15 +25,12 @@ then
 
 elif [ ! -f $filename ]
 then
-	echo "Are you making an PL/SQL script(1) or HTML script (2): "
-	read temp_choice
-	if [ $temp_choice = 1 ]
-	then	
-		PLtemplate $filename $2
-	elif [ $temp_choice = 2 ]
-	then
-		HTMLheader $filename
-	fi
+	echo "Which template do you need? Type 0 for options?"
+	read -rp "Template Choice: " temp_choice
+	main_menu $filename $temp_choice $2
+	read -p "What permissions will you give it? " permission
+	chmod $permission $filename
+
 fi
 
 nano $filename

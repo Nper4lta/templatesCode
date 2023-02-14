@@ -1,19 +1,41 @@
 #!/bin/bash
-# By: Nathan Peralta
 # Last modified: 2023-Feb-01
 source SQLfunctions
 source HTMLfunctions
+
+main_menu(){
+	filename=$1
+	answer=$2
+	creators=$3
+	echo $answer
+	if [ $answer = 0 ]
+	then
+		echo "1. Linux 2. PL/SQL 3. HTML"
+		read -p "Template Choice: " answers
+		main_menu $filename $answers $creators
+	elif [ $answer = 1 ]
+	then
+		linuxTemplate $filename $creators
+	elif [ $answer = 2 ]
+	then
+		PLtemplate $filename $creators 
+	else
+		echo "Not an option, please try again or type 0 for the options"
+		read -rp "Template Choice: " answers
+		main_menu $filename $answers $creators
+	fi
+}
 
 creator_name(){
 	filename=$1
 	if [ -z $2 ]
 	then
-		echo "Enter your names"
-		read creators
-		echo "Created By: $creators" >> $filename
+		read -p "Enter your names: " creators
+		echo "Created By: $creators" >> $filename	
 	else
 		creators=$2
 		echo "Created By: $creators" >> $filename
+	
 	fi
 }
 
@@ -23,10 +45,20 @@ checkOption(){
 	if ! [[ $choice =~ $PLoptions ]]
 	then 
 		echo "Not an option"
-		echo "Please choice a number between 1-4"
-		read choiceTwo
+		read -p "Please choice a number between 1-4: " choiceTwo
 		checkOption $choiceTwo
 	fi
+}
+
+linuxTemplate(){
+	filename=$1
+
+	echo "#!/bin/bash" >> $filename
+	creator_name $filename $2 "linux"
+
+	lastModified=$(date +"%Y-%b-%d %R")
+        echo "# Last modified: $lastModified" >> $filename
+
 }
 
 PLtemplate(){
@@ -38,14 +70,14 @@ PLtemplate(){
 	
 	lastModified=$(date +"%Y-%b-%d %R")
         echo "Last modified: $lastModified" >> $filename
-        
+       
 	echo "===*/" >> $filename
         echo "What do you want to make?"
         echo "1) A procedure"
         echo "2) A function"
         echo "3) A trigger"
         echo "4) All of the above"
-        read template_choice
+        read -p "Things to add: " template_choice
 
         checkOption $template_choice
 
