@@ -1,5 +1,6 @@
 #!/bin/bash
 # Last modified: 2023-Feb-01
+
 source SQLfunctions
 source HTMLfunctions
 
@@ -10,7 +11,7 @@ main_menu(){
 	echo $answer
 	if [ $answer = 0 ]
 	then
-		echo "1. Linux 2. PL/SQL 3. HTML"
+		echo "1. Linux 2. PL/SQL"
 		read -p "Template Choice: " answers
 		main_menu $filename $answers $creators
 	elif [ $answer = 1 ]
@@ -19,6 +20,10 @@ main_menu(){
 	elif [ $answer = 2 ]
 	then
 		PLtemplate $filename $creators 
+	elif [ $answer = 3 ]
+	then
+		HTMLheader $filename
+		
 	else
 		echo "Not an option, please try again or type 0 for the options"
 		read -rp "Template Choice: " answers

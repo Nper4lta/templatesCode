@@ -1,16 +1,19 @@
 #!/bin/bash
 # Last Modified: 2023-02-01
-source templateFunct
 
 HTMLheader(){
 	filename=$1
 	creator=$2
 	echo "<!DOCTYPE html>" >> $filename
-	echo "<html lang=\"en\" xmlns="\"https://www.w3.org/1999/xhtml\">" >> $filename
+	echo '<html lang="en" xmlns="https://www.w3.org/1999/xhtml">' >> $filename
 	echo "<!--" >> $filename
-
-	creator_name $filename $creator
+	read -p "Enter your names " names
+	echo "	By: $names" >> $filename
 	
+	newModified=$(date +"%Y-%b-%d %R")
+	modifiedForm="Last modified: $newModified"
+	
+	echo "	$modifiedForm" >> $filename
 	echo "you can run this using the URL: " >> $filename
 	echo "-->" >> $filename
 	echo "	<head>" >> $filename

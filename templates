@@ -4,7 +4,7 @@
 # Last Modified: 2023-Jan-27
 #		2023-Feb-01
 source SQLfunctions
-source HTMLfunctions
+
 source templateFunct
 
 if [ $# -eq 0 ]
