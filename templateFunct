@@ -1,4 +1,5 @@
 #!/bin/bash
+# By: Nathan Peralta
 # Last modified: 2023-Feb-01
 source SQLfunctions
 source HTMLfunctions

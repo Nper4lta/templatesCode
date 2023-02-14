@@ -1,4 +1,5 @@
 #!/bin/bash
+# By: Nathan Peralta
 # Last Modified: 2023-02-01
 
 HTMLheader(){
@@ -7,8 +8,10 @@ HTMLheader(){
 	echo "<html lang=\"en\">" >> $filename
 	echo "	<head>" >> $filename
 	echo "		<meta charset=\"UTF-8\">" >> $filename
-	echo "			<title> INSERT_TITLE </title>" >> $filename
+	echo "			<title> INSERT_TITLE </title>" >> $filename/
 	echo "	</head>" >> $filename
+	echo "	<body> " >> $filename
+	echo "	<\body " >> $filename
 	echo >> $filename
 	echo "</html>" >> $filename
 }
