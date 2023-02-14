@@ -6,8 +6,7 @@
 # Creates procedures for sql
 procedure_sql(){
 	filename=$1
-	echo "Enter procedure name: "
-	read procedure_name
+	read -p "Enter procedure name: " procedure_name
 	header_sql $filename $procedure_name
 	echo "create or replace procedure $procedure_name as" >> $filename
 	echo >> $filename
@@ -18,13 +17,10 @@ procedure_sql(){
 # creates functions for sql
 functions_sql(){
 	filename=$1
-	echo "Enter function name: "
-	read funct_name
+	read -p "Enter function name: " funct_name
 	header_sql $1 $funct_name
-	echo "Do you want an IS(1) or AS(2): "
-	read is_answer
-	echo "What variable do you need to return?"
-	read varReturned
+	read -p "Do you want an IS(1) or AS(2): " is_answer
+	read -p "What variable do you need to return? " varReturned
 	if [ $is_answer == 1 ]
 	then	
 		echo "create or replace function $funct_name ">> $filename 
@@ -47,8 +43,7 @@ afterSetup(){
 	echo "begin" >> $filename
 	echo >> $filename
 
-	echo "Do you need exceptions(y/n)?"
-	read except_answer
+	read -p "Do you need exceptions(y/n)? " except_answer
 	exceptions_sql $filename $except_answer
 
 	echo "end;" >> $filename
@@ -84,12 +79,11 @@ testTemp() {
 # trigger_sql
 # creates triggers for sql
 trigger_sql(){
-	echo "Enter name for your trigger:"
-	read triggerName
+	read -p "Enter name for your trigger: " triggerName
+
 	header_sql $1 $triggerName
 	echo "create or replace trigger $triggerName" >> $1
-	echo "Is this before(1) or after(2) updates?"
-	read whenTriggered
+	read -p "Is this before(1) or after(2) updates? " whenTriggered
 
 	if [ $whenTriggered == 1 ]
 	then
@@ -102,8 +96,7 @@ trigger_sql(){
 		exit 1
 	fi
 
-	echo "Which table is this for?"
-	read tbl_nam
+	read -p "Which table is this for? " tbl_nam
 	echo "	on $tbl_nam" >> $1
 	echo "	for each row" >> $1
 	afterSetup $1 $triggerName 0
@@ -128,8 +121,8 @@ howMany_sql(){
 
 	if [ $funct_to_do == 1 ]
 	then
-		echo "How much procedures do you want?"
-		read amount
+		read -p "How much procedures do you want? " amount
+	
 		while [ $counter -lt $amount ]
 		do
 			procedure_sql $filename
@@ -138,8 +131,8 @@ howMany_sql(){
 		done
  	elif [ $funct_to_do == 2 ]
 	then
-		echo "How much functions do you want?"
-		read amount
+		read -p "How much functions do you want? " amount
+
 		while [ $counter -lt $amount ]
 		do
 			functions_sql $filename
@@ -149,8 +142,7 @@ howMany_sql(){
 		done
 	elif [ $funct_to_do == 3 ]
 	then
-		echo "How much trigger do you want?"
-		read amount
+		read -p "How much triggers do you want? " amount
 		while [ $counter -lt $amount ]
 		do
 			trigger_sql $filename
@@ -175,8 +167,7 @@ exceptions_sql(){
 	elif [ $exception_needed != 'n' ]
 	then
 		echo "Not a valid answer!"
-		echo "Please anwer either y/n"
-		read except_answer
+		read -p "Please anwer either y/n: " except_answer
 		exceptions_sql $filename $except_answer
 	fi
 }
