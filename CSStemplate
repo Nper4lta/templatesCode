@@ -26,5 +26,5 @@ insertHtml(){
 	fileLoc=$(find ~ -name "$filename")
 	fileLink="		<link href=\"https://nrs-projects.humboldt.edu/~np157$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 	sed -i "/link/ a $fileLink" $var	
-	sed -i 's/\/home.*\/np157//' $filename
+	sed -i 's/\/home.*\/np157//' $var
 }
