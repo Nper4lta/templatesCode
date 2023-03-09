@@ -1,7 +1,7 @@
 #!/bin/bash
 # Autoformat for 328
 # Nathan Peralta
-# Last modified: 2023-Mar-09 12:47
+# Last modified: 2023-Mar-09 15:04
 		
 source SQLfunctions
 source HTMLfunctions
@@ -25,21 +25,21 @@ then
 elif [ ! -f $filename ]
 then
 	case $filename in
-		*.sh$)
+		*.sh)
 			linuxTemplate $filename $2
 			read -p "What permissions will you give it? " permission
 			chmod $permission $filename	
 			;;
-		*.sql$)
+		*.sql)
 			PLtemplate $filename $2
 			read -p "What permissions will you give it? " permission
 			chmod $permission $filename
 			;;
-		*.html$)
+		*.html)
 			HTMLheader $filename $2
 			chmod 644 $filename
 			;;
-		*.css$)
+		*.css)
 			CSSheader $filename $2
 			chmod 644 $filename
 			;;
