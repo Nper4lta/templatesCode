@@ -1,8 +1,8 @@
 #!/bin/bash
 # Autoformat for 328
 # Nathan Peralta
-# Last modified: 2023-Mar-08 17:28
-#		2023-Feb-01
+# Last modified: 2023-Mar-08 17:50
+#		
 source SQLfunctions
 
 source templateFunct
@@ -17,11 +17,9 @@ fi
 
 if [ -e $filename ]
 then
-	echo "Exists"
-
 	newModified=$(date +"%Y-%b-%d %R")
-	modifiedForm="Last modified: 2023-Mar-08 17:28
-	sed -i "s/Last modified: 2023-Mar-08 17:28
+	modifiedForm="Last modified: $newModified"
+	sed -i "1,5 s/[Ll]ast modified: .*/$modifiedForm/g" $filename
 
 elif [ ! -f $filename ]
 then
