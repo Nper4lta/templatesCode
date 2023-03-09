@@ -14,12 +14,25 @@ HTMLheader(){
 	modifiedForm="Last modified: $newModified"
 	
 	echo "	$modifiedForm" >> $filename
-	echo "you can run this using the URL: " >> $filename
+
+	HTMLpath $filename
+
 	echo "-->" >> $filename
 	echo "	<head>" >> $filename
+	echo "	<title> INSERT_TITLE </title>" >> $filename
 	echo "		<meta charset=\"UTF-8\">" >> $filename
-	echo "			<title> INSERT_TITLE </title>" >> $filename
+	echo "		<link href=\"http://nrs-projects.humboldt.edu/~st10/styles/normalize.css\" type=\"text/css\" rel=\"stylesheet\" />" >> $filename
 	echo "	</head>" >> $filename
 	echo >> $filename
 	echo "</html>" >> $filename
+}
+
+HTMLpath(){
+	filename=$1	
+	echo "   you can run this using this URL: ">> $filename
+	fileLoc=$(find ~ -name "$filename")
+	pageLink="https.//nrs-projects.humboldt.edu/~np157$fileLoc"
+	echo "   $pageLink" >> $filename
+	
+	
 }
