@@ -1,0 +1,15 @@
+#!/bin/bash
+# By: Nathan Peralta
+# last modified: 2023-Mar-08- 17:27 -53
+
+CSSheader(){
+	filename=$1
+	creators=$2	
+	echo "/*" >> $filename
+	
+
+	lastModified=$(date +"%Y-%b-%d")
+	echo "  Last modified: $lastModified" >> $filename
+	echo "*/" >> $filename
+	
+}
