@@ -1,10 +1,11 @@
 #!/bin/bash
 # Autoformat for 328
 # Nathan Peralta
-# Last modified: 2023-Mar-08 17:50
-#		
+# Last modified: 2023-Mar-08 19:17
+		
 source SQLfunctions
-
+source HTMLfunctions
+source CSStemplate
 source templateFunct
 
 if [ $# -eq 0 ]
@@ -23,9 +24,26 @@ then
 
 elif [ ! -f $filename ]
 then
-	echo "Which template do you need? Type 0 for options?"
-	read -rp "Template Choice: " temp_choice
-	main_menu $filename $temp_choice $2
+	case $filename in
+		*.sh)
+			linuxTemplate $filename $2
+			;;
+		*.sql)
+			PLtemplate $filename $2
+			;;
+		*.html)
+			HTMLheader $filename $2
+			;;
+		*.css)
+			CSSheader $filename $2
+			;;
+		*)
+			echo "Which template do you need? Type 0 for options?"
+			read -rp "Template Choice: " temp_choice
+			main_menu $filename $temp_choice $2
+			;;
+	esac
+	
 	read -p "What permissions will you give it? " permission
 	chmod $permission $filename
 
