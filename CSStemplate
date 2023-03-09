@@ -1,15 +1,19 @@
 #!/bin/bash
 # By: Nathan Peralta
-# last modified: 2023-Mar-08- 17:27 -53
+# Last modified: 2023-Mar-08 18:37
+
+source Universaltemplates 
 
 CSSheader(){
 	filename=$1
 	creators=$2	
-	echo "/*" >> $filename
-	
+	echo "/*=====" >> $filename
+	echo "$filename" >> $filename
+
+	creator_name $filename $creators
 
 	lastModified=$(date +"%Y-%b-%d")
-	echo "  Last modified: $lastModified" >> $filename
-	echo "*/" >> $filename
+	echo "Last modified: $lastModified" >> $filename
+	echo "=====*/" >> $filename
 	
 }
