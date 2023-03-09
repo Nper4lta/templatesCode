@@ -1,10 +1,10 @@
 #!/bin/bash
-# Last modified: 2023-Feb-01
+# Last modified: 2023-Mar-08 18:16
 
 source SQLfunctions
 source HTMLfunctions
 source CSStemplate
-
+source Universaltemplates
 main_menu(){
 	filename=$1
 	answer=$2
@@ -35,18 +35,6 @@ main_menu(){
 	fi
 }
 
-creator_name(){
-	filename=$1
-	if [ -z $2 ]
-	then
-		read -p "Enter your names: " creators
-		echo "Created By: $creators" >> $filename	
-	else
-		creators=$2
-		echo "Created By: $creators" >> $filename
-	
-	fi
-}
 
 checkOption(){
 	choice=$1
@@ -63,7 +51,7 @@ linuxTemplate(){
 	filename=$1
 
 	echo "#!/bin/bash" >> $filename
-	creator_name $filename $2 "linux"
+	creator_name $filename $2 "Linux"
 
 	lastModified=$(date +"%Y-%b-%d %R")
         echo "# Last modified: $lastModified" >> $filename

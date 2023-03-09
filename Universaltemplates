@@ -1,0 +1,26 @@
+#!/bin/bash
+# Created By: Nathan Peralta
+# Last modified: 2023-Mar-08 18:26
+
+# add the creator's name
+
+creator_name(){
+	filename=$1
+	if  [ -z $2 ]
+	then
+		read -p "Enter your name: " creators
+		echo "Created by: $creators" >> $filename
+	elif [ $2 == "Linux" ]
+	then
+		read -p "Enter your name: " creators
+		echo "# Created by: $creators" >> $filename
+	else
+		creators=$2
+		if [ $3 == "Linux" ]
+		then 
+			echo "# Created by: $creators" >> $filename
+		else
+			echo "Created by: $creators" >> $filename
+		fi
+	fi
+}
