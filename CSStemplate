@@ -1,6 +1,6 @@
 #!/bin/bash
 # By: Nathan Peralta
-# Last modified: 2023-Mar-09 15:02
+# Last modified: 2023-Mar-10 15:10
 
 source Universaltemplates 
 
@@ -27,5 +27,41 @@ insertHtml(){
 	#fileLink="		<link href=\"https://nrs-projects.humboldt.edu/~np157$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 	fileLink="		<link href=\"$filename\" type=\"text/css\" rel=\"stylesheet\" />"	
 
+	htmlClass=($(grep -ho 'class=".*"' $var))
+
+	unset dupes
+	declare -A dupes
+	for element in "${htmlClass[@]}"
+	do
+		if [ -z ${dupes[$element]} ]
+		then
+			NEWARRAY+=("$element")
+		fi
+		dupes["$element"]=1
+	done
+
+	for htmlCl in "${NEWARRAY[@]}"
+	do
+		echo "${htmlCl}" >> $filename
+	done	
+
+
 	sed -i "/link/ a $fileLink" $var	
+	sed -i 's/^class=\"/./g' $filename	
+	sed -i 's/\"$/\n{ \n \n}/g' $filename	
 }
+
+#insertElements(){
+
+	#htmlEl=($(grep -ho '^[[:blank:]]<.*>$' $var))
+
+	#for htmlEl in "${htmlEl[@]}"
+	#do
+	#	echo "${htmlEl}" >> $filename
+	#done	
+	#for htmlEl in "${htmlEl[@]}"
+	#do
+	#	echo "${htmlEl}" >> $filename
+	#done	
+	#sed -i 's/<\/.*>//' $filename	
+#}
