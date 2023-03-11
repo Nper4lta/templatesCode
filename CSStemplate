@@ -1,6 +1,6 @@
 #!/bin/bash
 # By: Nathan Peralta
-# Last modified: 2023-Mar-10 15:10
+# Last modified: 2023-Mar-10 16:05
 
 source Universaltemplates 
 
@@ -33,6 +33,7 @@ insertHtml(){
 	declare -A dupes
 	for element in "${htmlClass[@]}"
 	do
+		echo "$element"
 		if [ -z ${dupes[$element]} ]
 		then
 			NEWARRAY+=("$element")
@@ -45,23 +46,37 @@ insertHtml(){
 		echo "${htmlCl}" >> $filename
 	done	
 
-
-	sed -i "/link/ a $fileLink" $var	
+	insertElements $filename $var
+	
+#	sed -i "/link/ a $fileLink" $var	
 	sed -i 's/^class=\"/./g' $filename	
-	sed -i 's/\"$/\n{ \n \n}/g' $filename	
+	sed -i 's/\"/\n{ \n \n}/g' $filename
+	sed -i '/<\/.*>/d' $filename
+	sed -i 's/>/\n{ \n \n}/g' $filename
+	sed -i 's/<//g' $filename
+	
 }
 
-#insertElements(){
+insertElements(){
+	filename=$1
+	var=$2
 
-	#htmlEl=($(grep -ho '^[[:blank:]]<.*>$' $var))
+	htmlEl=($(grep -ho '<.*>$' $var | grep -v 'html'))
+	unset dupeARRAY
+	unset dupes
+	declare -A dupes
+	for element in "${htmlEl[@]}"
+	do
+		echo "$element"
+		if [ -z ${dupes[$element]} ]
+		then
+			dupeARRAY+=("$element")
+		fi
+		dupes["$element"]=1
+	done
 
-	#for htmlEl in "${htmlEl[@]}"
-	#do
-	#	echo "${htmlEl}" >> $filename
-	#done	
-	#for htmlEl in "${htmlEl[@]}"
-	#do
-	#	echo "${htmlEl}" >> $filename
-	#done	
-	#sed -i 's/<\/.*>//' $filename	
-#}
+	for htmlCl in "${dupeARRAY[@]}"
+	do
+		echo "${htmlCl}" >> $filename
+	done	
+}
