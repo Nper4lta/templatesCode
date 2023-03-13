@@ -1,6 +1,6 @@
 #!/bin/bash
 # By: Nathan Peralta
-# Last modified: 2023-Mar-10 16:05
+# Last modified: 2023-Mar-12 20:37
 
 source Universaltemplates 
 
@@ -23,10 +23,13 @@ insertHtml(){
 	filename=$1
 	read -p "Which html file do you want? " htmlFile
 	var=$(find ~ -name "$htmlFile")
-	#fileLoc=$(find ~ -name "$filename")
+	fileLoc=$(find ~ -name "$filename")
 	#fileLink="		<link href=\"https://nrs-projects.humboldt.edu/~np157$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
-	fileLink="		<link href=\"$filename\" type=\"text/css\" rel=\"stylesheet\" />"	
+	fileLink="		<link href=\"$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 
+	insertElements $filename $var
+
+	
 	htmlClass=($(grep -ho 'class=".*"' $var))
 
 	unset dupes
@@ -44,11 +47,10 @@ insertHtml(){
 	for htmlCl in "${NEWARRAY[@]}"
 	do
 		echo "${htmlCl}" >> $filename
+		
 	done	
-
-	insertElements $filename $var
 	
-#	sed -i "/link/ a $fileLink" $var	
+	sed -i "/link/ a $fileLink" $var	
 	sed -i 's/^class=\"/./g' $filename	
 	sed -i 's/\"/\n{ \n \n}/g' $filename
 	sed -i '/<\/.*>/d' $filename
@@ -61,7 +63,7 @@ insertElements(){
 	filename=$1
 	var=$2
 
-	htmlEl=($(grep -ho '<.*>$' $var | grep -v 'html'))
+	htmlEl=($(grep -ho '<.*>' $var | grep -v 'html'))
 	unset dupeARRAY
 	unset dupes
 	declare -A dupes
@@ -74,7 +76,7 @@ insertElements(){
 		fi
 		dupes["$element"]=1
 	done
-
+	
 	for htmlCl in "${dupeARRAY[@]}"
 	do
 		echo "${htmlCl}" >> $filename
