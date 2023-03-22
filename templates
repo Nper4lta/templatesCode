@@ -1,8 +1,8 @@
 #!/bin/bash
 # Autoformat for 328
 # Nathan Peralta
-# Last modified: 2023-Mar-12 21:31
-		
+# Last modified: 2023-Mar-22 14:15
+
 source SQLfunctions
 source HTMLfunctions
 source CSStemplate
@@ -20,20 +20,25 @@ if [ -e $filename ]
 then
 	case $filename in
 		*.css)
-			grep -rl --include \*.html "$filename" ~/
+			inFile=$(grep -rl --include \*.html "$filename" ~/)
+			compFile=$(find ~ -name  $filename)
+			currLink=$(grep -o "/home.*/$filename"  $inFile) 
+			echo "$inFile"
+			echo "$compFile"
+			echo "$currLink"
 	esac
 
 	newModified=$(date +"%Y-%b-%d %R")
 	modifiedForm="Last modified: $newModified"
 	sed -i "1,5 s/[Ll]ast modified: .*/$modifiedForm/g" $filename
-	
+
 elif [ ! -f $filename ]
 then
 	case $filename in
 		*.sh)
 			linuxTemplate $filename $2
 			read -p "What permissions will you give it? " permission
-			chmod $permission $filename	
+			chmod $permission $filename
 			;;
 		*.sql)
 			PLtemplate $filename $2
@@ -56,7 +61,7 @@ then
 			chmod $permission $filename
 			;;
 	esac
-	
+
 fi
 
 nano $filename
