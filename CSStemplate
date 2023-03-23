@@ -1,6 +1,6 @@
 #!/bin/bash
 # By: Nathan Peralta
-# Last modified: 2023-Mar-12 20:37
+# Last modified: 2023-Mar-22 17:26
 
 source Universaltemplates 
 
@@ -36,7 +36,6 @@ insertHtml(){
 	declare -A dupes
 	for element in "${htmlClass[@]}"
 	do
-		echo "$element"
 		if [ -z ${dupes[$element]} ]
 		then
 			NEWARRAY+=("$element")
