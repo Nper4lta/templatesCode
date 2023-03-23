@@ -1,6 +1,8 @@
 #!/bin/bash
 # Last Modified: 2023-02-01
 
+source Universaltemplates
+
 HTMLheader(){
 	filename=$1
 	creator=$2
@@ -35,4 +37,18 @@ HTMLpath(){
 	echo "   $pageLink" >> $filename
 	sed -i 's/\/home.*\/np157//' $filename
 	
+}
+
+PHPheader(){
+	filename=$1
+	creators=$2
+	echo "/*=====" >> $filename
+	echo "	$filename" >> $filename
+	creator_name $filename $creators
+	dateCreated $filename
+	echo "=====*/" >> $filename
+
+	echo -e "<?php \n" >> $filename
+	
+	echo "?>" >> $filename	
 }
