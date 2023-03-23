@@ -1,6 +1,6 @@
 #!/bin/bash
 # Created By: Nathan Peralta
-# Last modified: 2023-Mar-08 18:34
+# Last modified: 2023-Mar-22 18:11
 
 # add the creator's name
 
@@ -23,4 +23,13 @@ creator_name(){
 			echo "Created by: $creators" >> $filename
 		fi
 	fi
+}
+
+dateCreated(){
+	filename=$1
+
+	newModified=$(date +"%Y-%b-%d %R")
+	modifiedForm="Last modified: $newModified"
+	
+	echo "	$modifiedForm" >> $filename
 }
