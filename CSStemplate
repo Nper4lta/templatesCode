@@ -1,6 +1,6 @@
 #!/bin/bash
 # By: Nathan Peralta
-# Last modified: 2023-Mar-22 17:26
+# Last modified: 2023-Mar-22 19:38
 
 source Universaltemplates 
 
@@ -12,8 +12,7 @@ CSSheader(){
 
 	creator_name $filename $creators
 
-	lastModified=$(date +"%Y-%b-%d")
-	echo "Last modified: $lastModified" >> $filename
+	dateCreated $filename
 	echo "=====*/" >> $filename
 	insertHtml $filename	
 }
@@ -27,7 +26,7 @@ insertHtml(){
 	#fileLink="		<link href=\"https://nrs-projects.humboldt.edu/~np157$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 	fileLink="		<link href=\"$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 
-	insertElements $filename $var
+	# insertElements $filename $var
 
 	
 	htmlClass=($(grep -ho 'class=".*"' $var))
