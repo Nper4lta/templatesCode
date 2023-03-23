@@ -1,6 +1,6 @@
 #!/bin/bash
 # By: Nathan Peralta
-# Last modified: 2023-Mar-22 19:52
+# Last modified: 2023-Mar-22 20:26
 
 source Universaltemplates 
 
@@ -23,7 +23,8 @@ insertHtml(){
 	read -p "Which html file do you want? " htmlFile
 	var=$(find ~ -name "$htmlFile")
 	fileLoc=$(find ~ -name "$filename")
-	#fileLink="		<link href=\"https://nrs-projects.humboldt.edu/~np157$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
+	echo "$fileLoc"
+	fileLink="		<link href=\"https://nrs-projects.humboldt.edu/~np157$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 	fileLink="		<link href=\"$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 
 	insertElements $filename $var

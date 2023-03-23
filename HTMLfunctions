@@ -33,7 +33,9 @@ HTMLpath(){
 	filename=$1	
 	echo "   you can run this using this URL: ">> $filename
 	fileLoc=$(find ~ -name "$filename")
-	pageLink="https://nrs-projects.humboldt.edu/~np157$fileLoc"
+	pattern="public_html/"
+	fileLocation="${fileLoc#*$pattern}"
+	pageLink="https://nrs-projects.humboldt.edu/~np157/$fileLocation"
 	echo "   $pageLink" >> $filename
 	sed -i 's/\/home.*\/np157//' $filename
 	
