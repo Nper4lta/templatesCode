@@ -1,7 +1,7 @@
 #!/bin/bash
 # Autoformat for 328
 # Nathan Peralta
-# Last modified: 2023-Mar-22 14:15
+# Last modified: 2023-Mar-22 17:28
 
 source SQLfunctions
 source HTMLfunctions
@@ -21,11 +21,15 @@ then
 	case $filename in
 		*.css)
 			inFile=$(grep -rl --include \*.html "$filename" ~/)
-			compFile=$(find ~ -name  $filename)
+			compFile=$(find ~ -name  "$filename")
 			currLink=$(grep -o "/home.*/$filename"  $inFile) 
-			echo "$inFile"
-			echo "$compFile"
-			echo "$currLink"
+		
+			if [[ "$currLink" == "$compFile"* ]]
+			then
+				echo "true"
+			else
+				echo "$compFile is not  $currLink"
+			fi
 	esac
 
 	newModified=$(date +"%Y-%b-%d %R")
@@ -49,6 +53,9 @@ then
 			HTMLheader $filename $2
 			chmod 644 $filename
 			;;
+		*.php)
+			PHPheader $filename $2
+			chmod 644 $filename
 		*.css)
 			CSSheader $filename $2
 			chmod 644 $filename
