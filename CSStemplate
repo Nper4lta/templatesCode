@@ -1,6 +1,6 @@
 #!/bin/bash
 # By: Nathan Peralta
-# Last modified: 2023-Mar-22 19:38
+# Last modified: 2023-Mar-22 19:52
 
 source Universaltemplates 
 
@@ -26,7 +26,7 @@ insertHtml(){
 	#fileLink="		<link href=\"https://nrs-projects.humboldt.edu/~np157$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 	fileLink="		<link href=\"$fileLoc\" type=\"text/css\" rel=\"stylesheet\" />"	
 
-	# insertElements $filename $var
+	insertElements $filename $var
 
 	
 	htmlClass=($(grep -ho 'class=".*"' $var))
@@ -60,19 +60,20 @@ insertHtml(){
 insertElements(){
 	filename=$1
 	var=$2
-
+	toRemove="[<>]"
 	htmlEl=($(grep -ho '<.*>' $var | grep -v 'html'))
 	unset dupeARRAY
 	unset dupes
 	declare -A dupes
 	for element in "${htmlEl[@]}"
 	do
-		echo "$element"
-		if [ -z ${dupes[$element]} ]
+		new=${element//$toRemove/}
+		echo "$new"
+		if [ -z ${dupes[$new]} ]
 		then
-			dupeARRAY+=("$element")
+			dupeARRAY+=("$new")
 		fi
-		dupes["$element"]=1
+		dupes["$new"]=1
 	done
 	
 	for htmlCl in "${dupeARRAY[@]}"
