@@ -1,5 +1,5 @@
 #!/bin/bash
-# Last modified: 2023-Mar-27 16:20
+# Last modified: 2023-Mar-27 16:23
 
 source SQLfunctions
 source HTMLfunctions
@@ -64,7 +64,7 @@ linuxTemplate(){
 	creator_name $filename $2 "Linux"
 
 	lastModified=$(date +"%Y-%b-%d %R")
-        echo "# Last modified: 2023-Mar-27 16:20
+        echo "# Last modified: 2023-Mar-27 16:23
 }
 
 PLtemplate(){
@@ -75,7 +75,7 @@ PLtemplate(){
         creator_name $filename $2
 	
 	lastModified=$(date +"%Y-%b-%d %R")
-        echo "Last modified: 2023-Mar-27 16:20
+        echo "Last modified: $lastModified"
        
 	echo "===*/" >> $filename
         echo "What do you want to make?"
@@ -83,6 +83,7 @@ PLtemplate(){
         echo "2) A function"
         echo "3) A trigger"
         echo "4) All of the above"
+	echo "5) None of them"
         read -p "Things to add: " template_choice
 
         checkOption $template_choice
@@ -92,6 +93,9 @@ PLtemplate(){
                 howMany_sql 1 $filename
                 howMany_sql 2 $filename
                 howMany_sql 3 $filename
+	elif [ $template_choice == 5]
+	then
+		echo "choose nothing"
         else
                 howMany_sql $template_choice $filename
         fi
