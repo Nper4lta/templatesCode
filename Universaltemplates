@@ -1,6 +1,6 @@
 #!/bin/bash
 # Created By: Nathan Peralta
-# Last modified: 2023-Mar-22 18:11
+# Last modified: 2023-Mar-27 16:56
 
 # add the creator's name
 
@@ -32,4 +32,15 @@ dateCreated(){
 	modifiedForm="Last modified: $newModified"
 	
 	echo "	$modifiedForm" >> $filename
+}
+
+numCheck(){
+	multipleFile=$1
+
+        if [[ ! $multipleFile =~ [0-9] ]]
+        then
+            	echo "Not a number"
+                read -p "Please enter a number: " newAns
+                numCheck $newAns
+        fi
 }
