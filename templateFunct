@@ -1,48 +1,58 @@
 #!/bin/bash
-# Last modified: 2023-Mar-08 18:16
+# Last modified: 2023-Mar-27 16:20
 
 source SQLfunctions
 source HTMLfunctions
 source CSStemplate
 source Universaltemplates
+
 main_menu(){
 	filename=$1
 	answer=$2
 	creators=$3
-	echo $answer
-	if [ $answer = 0 ]
-	then
-		echo "1. Linux 2. PL/SQL 3. HTML"
-		echo "4. CSS"
-		read -p "Template Choice: " answers
-		main_menu $filename $answers $creators
-	elif [ $answer = 1 ]
-	then
-		linuxTemplate $filename $creators
-	elif [ $answer = 2 ]
-	then
-		PLtemplate $filename $creators 
-	elif [ $answer = 3 ]
-	then
-		HTMLheader $filename
-	elif [ $answer = 4 ]
-	then
-		CSSheader $filename $creators
-	else
-		echo "Not an option, please try again or type 0 for the options"
-		read -rp "Template Choice: " answers
-		main_menu $filename $answers $creators
-	fi
+	case $answer in
+		0)
+			echo "1. Linux 2. PL/SQL 3. HTML"
+			echo "4. CSS   5. PHP"
+			read -p "Template Choice: " answers
+			main_menu $filename $answers $creators
+			;;
+		1)
+			filename="$filename.sh"
+			linuxTemplate $filename $creators
+			;;
+		2)
+			filename="$filename.sql"
+			PLtemplate $filename $creators 
+			;;
+		3)
+			filename="$filename.html"
+			HTMLheader $filename
+			;;
+		4)
+			filename="$filename.css"
+			CSSheader $filename $creators
+			;;
+		5)
+			filename="$filename.php"
+			PHPheader $filename $creators
+			;;
+		*)
+			echo "Not an option, please try again or type 0 for the options"
+			read -rp "Template Choice: " answers
+			main_menu $filename $answers $creators
+			;;
+	esac
 }
 
 
 checkOption(){
 	choice=$1
-	PLoptions='[1234]'
+	PLoptions='[012345]'
 	if ! [[ $choice =~ $PLoptions ]]
 	then 
 		echo "Not an option"
-		read -p "Please choice a number between 1-4: " choiceTwo
+		read -p "Please choice a number between 1-5: " choiceTwo
 		checkOption $choiceTwo
 	fi
 }
@@ -54,8 +64,7 @@ linuxTemplate(){
 	creator_name $filename $2 "Linux"
 
 	lastModified=$(date +"%Y-%b-%d %R")
-        echo "# Last modified: $lastModified" >> $filename
-
+        echo "# Last modified: 2023-Mar-27 16:20
 }
 
 PLtemplate(){
@@ -66,7 +75,7 @@ PLtemplate(){
         creator_name $filename $2
 	
 	lastModified=$(date +"%Y-%b-%d %R")
-        echo "Last modified: $lastModified" >> $filename
+        echo "Last modified: 2023-Mar-27 16:20
        
 	echo "===*/" >> $filename
         echo "What do you want to make?"
