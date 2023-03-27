@@ -1,5 +1,5 @@
 #!/bin/bash
-# Last modified: 2023-Mar-27 16:23
+# Last modified: 2023-Mar-27 16:34
 
 source SQLfunctions
 source HTMLfunctions
@@ -62,9 +62,7 @@ linuxTemplate(){
 
 	echo "#!/bin/bash" >> $filename
 	creator_name $filename $2 "Linux"
-
-	lastModified=$(date +"%Y-%b-%d %R")
-        echo "# Last modified: 2023-Mar-27 16:23
+	dateCreated $filename
 }
 
 PLtemplate(){
@@ -73,9 +71,7 @@ PLtemplate(){
         echo "$filename" >> $filename
 
         creator_name $filename $2
-	
-	lastModified=$(date +"%Y-%b-%d %R")
-        echo "Last modified: $lastModified"
+	dateCreated $filename	
        
 	echo "===*/" >> $filename
         echo "What do you want to make?"
