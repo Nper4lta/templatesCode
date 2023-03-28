@@ -6,11 +6,12 @@ source Universaltemplates
 HTMLheader(){
 	filename=$1
 	creator=$2
-	echo "<!DOCTYPE html>" >> $filename
-	echo '<html lang="en" xmlns="https://www.w3.org/1999/xhtml">' >> $filename
-	echo "<!--" >> $filename
-	read -p "Enter your names " names
-	echo "	By: $names" >> $filename
+	cat <<- EOF >> $filename
+	<!DOCTYPE html>
+	<html lang="en" xmlns="https://www.w3.org/1999/xhtml">
+	<!--
+	$(creator_name $filename $creator)
+	EOF
 	
 	newModified=$(date +"%Y-%b-%d %R")
 	modifiedForm="Last modified: $newModified"
