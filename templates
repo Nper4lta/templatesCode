@@ -1,7 +1,7 @@
 #!/bin/bash
 # Autoformat for 328
 # Nathan Peralta
-# Last modified: 2023-Mar-22 19:01
+# Last modified: 2023-Mar-27 17:32
 
 source SQLfunctions
 source HTMLfunctions
@@ -61,6 +61,19 @@ then
 			CSSheader $filename $2
 			chmod 644 $filename
 			;;
+		hw*)
+			read -p "How many files do you want? " multipleFiles
+			numCheck $multipleFiles
+			OGname="$filename"
+			counter=0
+			while [ $counter -lt $multipleFiles ]
+			do 
+				read -rp "Which file template do you need: " temp_choice
+				main_menu $OGname $temp_choice $2
+				((counter++))
+			done
+			;;
+
 		*)
 			echo "Which template do you need? Type 0 for options?"
 			read -rp "Template Choice: " temp_choice
