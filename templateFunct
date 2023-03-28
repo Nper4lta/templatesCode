@@ -1,5 +1,5 @@
 #!/bin/bash
-# Last modified: 2023-Mar-27 16:34
+# Last modified: 2023-Mar-27 17:51
 
 source SQLfunctions
 source HTMLfunctions
@@ -18,24 +18,29 @@ main_menu(){
 			main_menu $filename $answers $creators
 			;;
 		1)
-			filename="$filename.sh"
-			linuxTemplate $filename $creators
+			SHfile="$filename.sh"
+			linuxTemplate $SHfile $creators
+			chmod 644 $SHfile
 			;;
 		2)
-			filename="$filename.sql"
-			PLtemplate $filename $creators 
+			SQLfile="$filename.sql"
+			PLtemplate $SQLfile $creators 
+			chmod 644 $SQLfile
 			;;
 		3)
-			filename="$filename.html"
-			HTMLheader $filename
+			HTMLfile="$filename.html"
+			HTMLheader $HTMLfile
+			chmod 644 $HTMLfile
 			;;
 		4)
-			filename="$filename.css"
-			CSSheader $filename $creators
+			CSSfile="$filename.css"
+			CSSheader $CSSfile $creators
+			chmod 644 $CSSfile
 			;;
 		5)
-			filename="$filename.php"
-			PHPheader $filename $creators
+			PHPfile="$filename.php"
+			PHPheader $PHPfile $creators
+			chmod 644 $PHPfile
 			;;
 		*)
 			echo "Not an option, please try again or type 0 for the options"
@@ -91,7 +96,7 @@ PLtemplate(){
                 howMany_sql 3 $filename
 	elif [ $template_choice == 5]
 	then
-		echo "choose nothing"
+		touch $filename
         else
                 howMany_sql $template_choice $filename
         fi
