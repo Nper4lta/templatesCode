@@ -1,6 +1,6 @@
 #!/bin/bash
 # Created By: Nathan Peralta
-# Last modified: 2023-Mar-27 16:56
+# Last modified: 2023-Mar-27 17:15
 
 # add the creator's name
 
@@ -35,12 +35,11 @@ dateCreated(){
 }
 
 numCheck(){
-	multipleFile=$1
-
-        if [[ ! $multipleFile =~ [0-9] ]]
+        if [[ ! $multipleFiles =~ [0-9] ]]
         then
             	echo "Not a number"
-                read -p "Please enter a number: " newAns
-                numCheck $newAns
+                read -p "Please enter a number: " multipleFiles
+                numCheck $multipleFiles
         fi
 }
+
