@@ -6,40 +6,50 @@ source Universaltemplates
 HTMLheader(){
 	filename=$1
 	creator=$2
-	cat <<- EOF >> $filename
+	cat <<-EOF >> $filename
 	<!DOCTYPE html>
-	<html lang="en" xmlns="https://www.w3.org/1999/xhtml">
+		<html lang="en" xmlns="https://www.w3.org/1999/xhtml">
 	<!--
-	$(creator_name $filename $creator)
+	$(echo -e "\t")$(creator_name $filename $creator)
 	EOF
 	
-	newModified=$(date +"%Y-%b-%d %R")
-	modifiedForm="Last modified: $newModified"
-	
-	echo "	$modifiedForm" >> $filename
+	dateCreated $filename
 
-	HTMLpath $filename
+	cat <<- insertHTML >> $filename
+		$(HTMLpath $filename)
+	-->
+	<head>
+		$(echo -e "\t")<title> INSERT_TITLE </title>
+		$(echo -e "\t")<meta charset=\"UTF-8\">				
+		$(echo -e "\t")<link href="http://nrs-projects.humboldt.edu/~st10/styles/normalize.css" type="textcss" rel="stylesheet">
+	</head>
 
-	echo "-->" >> $filename
-	echo "	<head>" >> $filename
-	echo "	<title> INSERT_TITLE </title>" >> $filename
-	echo "		<meta charset=\"UTF-8\">" >> $filename
-	echo "		<link href=\"http://nrs-projects.humboldt.edu/~st10/styles/normalize.css\" type=\"text/css\" rel=\"stylesheet\" />" >> $filename
-	echo "	</head>" >> $filename
-	echo >> $filename
-	echo "</html>" >> $filename
+	<body>
+	<footer>
+    	<hr />
+	$(echo -e "\t")<p>
+        	Validate by pasting .xhtml copy's URL into<br />
+        	<a href="https://html5.validator.nu/">
+            	https://html5.validator.nu/
+        	</a>
+	$(echo -e "\t")</p>
+	</footer>
+	</body>
+	</html>
+	insertHTML
+
 }
+
 
 HTMLpath(){
 	filename=$1	
-	echo "   you can run this using this URL: ">> $filename
+	echo "   you can run this using this URL: "
 	fileLoc=$(find ~ -name "$filename")
 	pattern="public_html/"
 	fileLocation="${fileLoc#*$pattern}"
-	pageLink="https://nrs-projects.humboldt.edu/~np157/$fileLocation"
-	echo "   $pageLink" >> $filename
-	sed -i 's/\/home.*\/np157//' $filename
-	
+	pageLink="https://nrs-projects.humboldt.edu/~np157$fileLocation"
+	link=$(echo "$pageLink" | sed 's/\/home.*\/np157//')
+	echo "$link"
 }
 
 PHPheader(){
