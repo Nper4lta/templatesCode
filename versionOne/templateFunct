@@ -1,0 +1,77 @@
+#!/bin/bash
+# Last modified: 2023-Feb-01
+source SQLfunctions
+source HTMLfunctions
+
+creator_name(){
+	filename=$1
+	if [ -z $2 ]
+	then
+		echo "Enter your names"
+		read creators
+		echo "Created By: $creators" >> $filename
+	else
+		creators=$2
+		echo "Created By: $creators" >> $filename
+	fi
+}
+
+checkOption(){
+	choice=$1
+	PLoptions='[1234]'
+	if ! [[ $choice =~ $PLoptions ]]
+	then 
+		echo "Not an option"
+		echo "Please choice a number between 1-4"
+		read choiceTwo
+		checkOption $choiceTwo
+	fi
+}
+
+PLtemplate(){
+	filename=$1
+	echo "/*===" >> $filename
+        echo "$filename" >> $filename
+
+        creator_name $filename $2
+	
+	lastModified=$(date +"%Y-%b-%d %R")
+        echo "Last modified: $lastModified" >> $filename
+        
+	echo "===*/" >> $filename
+        echo "What do you want to make?"
+        echo "1) A procedure"
+        echo "2) A function"
+        echo "3) A trigger"
+        echo "4) All of the above"
+        read template_choice
+
+        checkOption $template_choice
+
+        if [ $template_choice == 4 ]
+        then
+                howMany_sql 1 $filename
+                howMany_sql 2 $filename
+                howMany_sql 3 $filename
+        else
+                howMany_sql $template_choice $filename
+        fi
+
+	echo "set serveroutput on" >> $filename
+        	for prodStr in ${prodArray[@]}
+        	do
+          		testingCreation $filename $prodStr
+                	testingCreation $filename $prodStr
+        	done
+
+		for functStr in ${functArray[@]}
+        	do
+          		testingCreation $filename $functStr
+                	testingCreation $filename $functStr
+        	done
+
+		for trigStr in ${trigArray[@]}
+        	do
+          		testingCreation $filename $trigStr
+        	done
+}

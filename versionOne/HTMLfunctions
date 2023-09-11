@@ -1,0 +1,14 @@
+#!/bin/bash
+# Last Modified: 2023-02-01
+
+HTMLheader(){
+	filename=$1
+	echo "<!DOCTYPE html>" >> $filename
+	echo "<html lang=\"en\">" >> $filename
+	echo "	<head>" >> $filename
+	echo "		<meta charset=\"UTF-8\">" >> $filename
+	echo "			<title> INSERT_TITLE </title>" >> $filename
+	echo "	</head>" >> $filename
+	echo >> $filename
+	echo "</html>" >> $filename
+}
