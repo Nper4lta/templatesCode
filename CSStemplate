@@ -2,7 +2,7 @@
 # By: Nathan Peralta
 # Last modified: 2023-Mar-28 23:04
 
-source Universaltemplate
+source Universaltemplates
 
 CSSheader(){
 	filename=$1
